@@ -13,7 +13,9 @@ class CompassViewController: UIViewController {
   @IBOutlet weak var imageView: UIImageView!
   
   let locationDelegate = LocationDelegate()
-  var latestLocation: CLLocation? = nil
+  let lat: Double = 37.46270163596578
+    let long: Double = -122.27146137788809
+    var latestLocation: CLLocation?
   var yourLocationBearing: CGFloat { return latestLocation?.bearingToLocationRadian(self.yourLocation) ?? 0 }
   var yourLocation: CLLocation {
     get { return UserDefaults.standard.currentLocation }
@@ -52,7 +54,7 @@ class CompassViewController: UIViewController {
     locationManager.delegate = locationDelegate
     
     locationDelegate.locationCallback = { location in
-      self.latestLocation = location
+        self.latestLocation = CLLocation(latitude: self.lat, longitude: self.long)
     }
     
     locationDelegate.headingCallback = { newHeading in
@@ -75,8 +77,8 @@ class CompassViewController: UIViewController {
       }
     }
     
-    let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(CompassViewController.showMap))
-    view.addGestureRecognizer(tapGestureRecognizer)
+    //let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(CompassViewController.showMap))
+    //view.addGestureRecognizer(tapGestureRecognizer)
   }
   
   @objc func showMap() {
