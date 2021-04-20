@@ -79,7 +79,7 @@ class CompassViewController: UIViewController {
     view.addGestureRecognizer(tapGestureRecognizer)
   }
   
-  func showMap() {
+  @objc func showMap() {
     let storyboard = UIStoryboard(name: "Main", bundle: nil)
     let mapViewController = storyboard.instantiateViewController(withIdentifier: "MapViewController")
     ((mapViewController as? UINavigationController)?.viewControllers.first as? MapViewController)?.delegate = self
