@@ -30,6 +30,7 @@ class MapViewController: UIViewController {
     }
   }
   
+    
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(MapViewController.didTap(_:)))
