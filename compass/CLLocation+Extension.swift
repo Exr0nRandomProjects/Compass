@@ -19,11 +19,16 @@ public extension CLLocation {
     let lat2 = destinationLocation.coordinate.latitude.degreesToRadians
     let lon2 = destinationLocation.coordinate.longitude.degreesToRadians
     
-    let dLon = lon2 - lon1
+//    let dLon = lon2 - lon1
+//    NSLog("%f %f     %f %f    %f", lat1, lon1, lat2, lon2, dLon)
     
-    let y = sin(dLon) * cos(lat2)
-    let x = cos(lat1) * sin(lat2) - sin(lat1) * cos(lat2) * cos(dLon)
-    let radiansBearing = atan2(y, x)
+//    let y = sin(dLon) * cos(lat2)
+//    let x = cos(lat1) * sin(lat2) - sin(lat1) * cos(lat2) * cos(dLon)
+//    let radiansBearing = atan2(y, x)
+    //    NSLog("%f %f %f %f", y, x, radiansBearing)
+
+    let radiansBearing = atan2(lon1-lon2, lat1-lat2)
+    NSLog("%f", radiansBearing)
     
     return CGFloat(radiansBearing)
   }

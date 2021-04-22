@@ -14,13 +14,18 @@ class CompassViewController: UIViewController {
   
   let locationDelegate = LocationDelegate()
 
-    var yourLocationBearing: CGFloat {
-        return CLLocation(latitude: 3, longitude: 3).bearingToLocationRadian(self.yourLocation)
-    }
+    
   var yourLocation: CLLocation {
     get { return UserDefaults.standard.currentLocation }
     set { UserDefaults.standard.currentLocation = newValue }
   }
+
+    private func getLocationBearing() -> CGFloat {
+//        NSLog("current location: %@", self.yourLocation)
+//        return CLLocation(latitude: 37.53654587476918, longitude: -122.28353817673623).bearingToLocationRadian(self.yourLocation)
+        return CLLocation(latitude: 3, longitude: 3).bearingToLocationRadian(self.yourLocation)
+
+    }
   
   let locationManager: CLLocationManager = {
     $0.requestWhenInUseAuthorization()
@@ -57,8 +62,8 @@ class CompassViewController: UIViewController {
       
       func computeNewAngle(with newAngle: CGFloat) -> CGFloat {
         let heading: CGFloat = {
-          let originalHeading = self.yourLocationBearing - newAngle.degreesToRadians
-            NSLog("Hedding changed to %10.6f, target is %10.6f", newAngle, self.yourLocationBearing)
+            let originalHeading = self.getLocationBearing() - newAngle.degreesToRadians
+//            NSLog("Hedding changed to %7.3f, target is %7.3f, %10.6f", newAngle, self.getLocationBearing(), originalHeading)
           switch UIDevice.current.orientation {
           case .faceDown: return -originalHeading
           default: return originalHeading
