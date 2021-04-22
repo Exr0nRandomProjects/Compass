@@ -13,10 +13,10 @@ class CompassViewController: UIViewController {
   @IBOutlet weak var imageView: UIImageView!
   
   let locationDelegate = LocationDelegate()
-  let lat: Double = 37.46270163596578
-    let long: Double = -122.27146137788809
-    var latestLocation: CLLocation?
-  var yourLocationBearing: CGFloat { return latestLocation?.bearingToLocationRadian(self.yourLocation) ?? 0 }
+
+    var yourLocationBearing: CGFloat {
+        return CLLocation(latitude: 3, longitude: 3).bearingToLocationRadian(self.yourLocation)
+    }
   var yourLocation: CLLocation {
     get { return UserDefaults.standard.currentLocation }
     set { UserDefaults.standard.currentLocation = newValue }
@@ -53,15 +53,12 @@ class CompassViewController: UIViewController {
     super.viewDidLoad()
     locationManager.delegate = locationDelegate
     
-    locationDelegate.locationCallback = { location in
-        self.latestLocation = CLLocation(latitude: self.lat, longitude: self.long)
-    }
-    
     locationDelegate.headingCallback = { newHeading in
       
       func computeNewAngle(with newAngle: CGFloat) -> CGFloat {
         let heading: CGFloat = {
           let originalHeading = self.yourLocationBearing - newAngle.degreesToRadians
+            NSLog("Hedding changed to %10.6f, target is %10.6f", newAngle, self.yourLocationBearing)
           switch UIDevice.current.orientation {
           case .faceDown: return -originalHeading
           default: return originalHeading
@@ -71,26 +68,10 @@ class CompassViewController: UIViewController {
         return CGFloat(self.orientationAdjustment().degreesToRadians + heading)
       }
       
-      UIView.animate(withDuration: 0.5) {
+      UIView.animate(withDuration: 0.9) {
         let angle = computeNewAngle(with: CGFloat(newHeading))
         self.imageView.transform = CGAffineTransform(rotationAngle: angle)
       }
     }
-    
-    //let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(CompassViewController.showMap))
-    //view.addGestureRecognizer(tapGestureRecognizer)
-  }
-  
-  @objc func showMap() {
-    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-    let mapViewController = storyboard.instantiateViewController(withIdentifier: "MapViewController")
-    ((mapViewController as? UINavigationController)?.viewControllers.first as? MapViewController)?.delegate = self
-    self.present(mapViewController, animated: true, completion: nil)
-  }
-}
-
-extension CompassViewController: MapViewControllerDelegate {
-  func update(location: CLLocation) {
-    yourLocation = location
   }
 }

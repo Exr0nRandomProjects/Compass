@@ -1,3 +1,6 @@
+# additional hacks
+- for unsupported iPhone iOS version: download from here https://github.com/iGhibli/iOS-DeviceSupport/tree/master/DeviceSupport and place in Xcode.app/contents/developer/platform/iPhoneOS.platform/DeviceSupport
+
 <p align="center">
     <img src="logo.png" width="580" max-width="90%" alt="Swift Web Crawler in action" />
 </p>
